@@ -1,8 +1,19 @@
 {% extends "base.html" %}
+{% load static %}
+
 
 {% block title%}Budget Manager {% endblock %}
-{% block css_files %} {% endblock %}
+{% block css_files %} 
+<link rel="stylesheet" href="{% static "budget_manager/landing_page.css" %}" /> 
+{% endblock %}
 
-{% block body%}
-    <h2>This is landing page</h2>
+{% block body %}
+    <section id="budget-summary">
+        {% for account in accounts %}
+            <div id="account"><a href="">
+                <h2>{{ account }}</h2>
+                <h3>{{ account.balance }} {{ account.main_currency }}</h3>
+            </a>    </div>
+        {% endfor %}
+    </section>
 {% endblock %}

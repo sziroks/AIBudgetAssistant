@@ -34,13 +34,13 @@ class Currency(models.Model):
     id_currency = models.AutoField(primary_key=True)
     name = models.CharField(max_length=20)
     short_name = models.CharField(max_length=3)
-    to_pln = models.FloatField()
+    to_pln = models.DecimalField(decimal_places=2, max_digits=10)
 
     def __str__(self):
         """
         Sets the string representation of the currency instance.
         """
-        return f"{self.name} ({self.short_name}): {self.to_pln}"
+        return f"{self.short_name}"
 
     class Meta:
         verbose_name_plural = "Currencies"
@@ -61,7 +61,7 @@ class Account(models.Model):
     id_account = models.AutoField(primary_key=True)
     id_user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
-    balance = models.FloatField()
+    balance = models.DecimalField(decimal_places=2, max_digits=10)
     main_currency = models.ForeignKey(Currency, on_delete=models.CASCADE)
     start_time = models.DateField()
     end_time = models.DateField(null=True, blank=True)
@@ -86,7 +86,7 @@ class Transaction(models.Model):
 
     id_transaction = models.AutoField(primary_key=True)
     id_account = models.ForeignKey(Account, on_delete=models.CASCADE)
-    amount = models.FloatField()
+    amount = models.DecimalField(decimal_places=2, max_digits=10)
     currency = models.ForeignKey(Currency, on_delete=models.CASCADE)
     time = models.DateTimeField()
     description = models.CharField(max_length=100, null=True, blank=True)

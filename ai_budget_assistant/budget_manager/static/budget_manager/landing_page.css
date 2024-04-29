@@ -1,0 +1,34 @@
+#budget-summary {
+    width: fit-content;
+    display: flex;
+    border-radius: 15px;
+    background-color: #1c1c1c;
+    box-shadow: 0 2px 8px rgba(116, 116, 116, 0.75);
+    margin: 0 auto;
+    margin-top: 10px;
+}
+
+#account {
+    display: inline-block;
+    margin: 10px;
+    border-radius: 20px;
+    padding: 5px;
+    background-color: #272328;
+    box-shadow: 0 2px 8px rgba(65, 65, 65, 0.75);
+
+}
+
+#account a {
+    text-decoration: none;
+}
+
+#account h2 {
+    color: #9932cc;
+    margin-top: 0.25rem;
+}
+
+#account h3 {
+    color: #8b008b;
+    margin-bottom: 0.25rem;
+    text-align: center;    
+}

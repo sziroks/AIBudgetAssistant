@@ -9,7 +9,7 @@ html {
 }
 
 body {
-  margin: 10rem;
+  margin: 6rem;
   background-color: rgba(0, 0, 0, 0.95);
   color: #ccc
 }
@@ -27,8 +27,7 @@ h3 {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 10%;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   background-color: #1c1c1c;
@@ -36,33 +35,20 @@ h3 {
 
 #main-navigation ul {
     list-style: none;
-    display: flex;
-}
-
-#main-navigation li {
-  margin: 0 1rem;
+    display: flex; 
 }
 
 #main-navigation a {
   text-decoration: none;
   color: #cf79f1;
   font-weight: bold;
-  border-radius: 10px;
   cursor: pointer;
-  border: 1px solid rgb(98, 7, 183);
-  background-color: rgb(98, 7, 183);
-  padding: 1.5rem 5rem;
-  border-radius: 12px;
+  padding: 1.5rem 1rem;
+  border-radius: 6px;
 }
 
 #main-navigation a:hover,
 #main-navigation a:active {
   color: #ffffff;
-  background-color: #9640b8;
-  border-color: #9640b8;
-}
-
-#main-navigation h1 a:hover,
-#main-navigation h1 a:active {
-  color: white;
+  background: radial-gradient(#9640b8, #3b0b4e);
 }
