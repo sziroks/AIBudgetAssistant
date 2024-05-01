@@ -8,6 +8,11 @@
 {% endblock %}
 
 {% block body %}
+    <section id="budget-options">
+        <div>
+            {% include "budget_manager/includes/budget_options.html" %}
+        </div>
+    </section>
     <section id="budget-summary">
         <form>
             {% csrf_token %}
@@ -19,4 +24,5 @@
             {% endfor %}
         </form>
     </section>
+
 {% endblock %}

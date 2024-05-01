@@ -1,16 +1,15 @@
 from django.shortcuts import render
 from django.views import View
-from django.http import HttpResponse
+from django.http import HttpResponseRedirect
 from django.utils.timezone import make_aware
 from datetime import (
     datetime,
     timedelta,
 )
 
-from .models import User, Account, Currency, Transaction
-from .forms import TransactionFilterForm
-from .consts import (
-    LANDING_PAGE_VIEW_CONTEXT_ACCOUNTS,
+from ..models import Account, Transaction
+from ..forms import TransactionFilterForm
+from ..consts import (
     BUDGET_MANAGER_VIEW_CONTEXT_TRANSACTIONS,
     BUDGET_MANAGER_VIEW_CONTEXT_FILTER_FORM,
     MODEL_TRANSACTION_TIME,
@@ -19,34 +18,21 @@ from .consts import (
     REQUEST_KEY_TRANSACTION_TYPE,
     REQUEST_VALUE_CREDIT,
     REQUEST_VALUE_DEBIT,
-    TEMPLATE_LANDING_PAGE,
     TEMPLATE_BUDGET_DETAILS,
 )
 
-
-def get_all_accounts():
-    return Account.objects.all()
-
-
-# Create your views here.
-class LandingPageView(View):
-    def get(self, request):
-        accounts = get_all_accounts()
-        return render(
-            request,
-            TEMPLATE_LANDING_PAGE,
-            context={LANDING_PAGE_VIEW_CONTEXT_ACCOUNTS: accounts},
-        )
-
-
-class BudgetManagerView(View):
+class TransactionView(View):
     def get(self, request, slug):
-        id_account = Account.objects.get(slug=slug).id_account
+        if not request.user.is_authenticated:
+            return HttpResponseRedirect("/accounts/login/")
+        
+        possible_accounts = Account.objects.filter(slug=slug)
+        id_account = possible_accounts.get(id_user=request.user.id).id_account
         transactions = Transaction.objects.filter(id_account=id_account).order_by(
             f"-{MODEL_TRANSACTION_TIME}"
         )
-
         if request.GET:
+            
             start_time = request.GET.get(REQUEST_KEY_START_DATE)
             end_time = request.GET.get(REQUEST_KET_END_DATE)
             transaction_type = request.GET.get(REQUEST_KEY_TRANSACTION_TYPE)
@@ -75,7 +61,7 @@ class BudgetManagerView(View):
         }
         return render(request, TEMPLATE_BUDGET_DETAILS, context=context)
 
-    def post(self, request):
-        print("post")
-        print(request.POST)
-        pass
+    # def post(self, request):
+    #     print("post")
+    #     print(request.POST)
+    #     pass

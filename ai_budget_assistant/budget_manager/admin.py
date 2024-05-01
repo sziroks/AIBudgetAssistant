@@ -1,8 +1,8 @@
 from django.contrib import admin
 
-from .models import User, Currency, Account, Transaction
+from .models import AppUser, Currency, Account, Transaction
 from .consts import (
-    MODEL_USER_ID_USER,
+    MODEL_USER_ID_APP_USER,
     MODEL_USER_NAME,
     MODEL_USER_LASTNAME,
     MODEL_USER_EMAIL,
@@ -28,10 +28,10 @@ from .consts import (
 # Register your models here.
 
 
-class UserAdmin(admin.ModelAdmin):
-    readonly_fields = (MODEL_USER_ID_USER,)
+class AppUserAdmin(admin.ModelAdmin):
+    readonly_fields = (MODEL_USER_ID_APP_USER,)
     list_display = (
-        MODEL_USER_ID_USER,
+        MODEL_USER_ID_APP_USER,
         MODEL_USER_NAME,
         MODEL_USER_LASTNAME,
         MODEL_USER_EMAIL,
@@ -74,7 +74,7 @@ class TransactionAdmin(admin.ModelAdmin):
     )
 
 
-admin.site.register(User, UserAdmin)
+admin.site.register(AppUser, AppUserAdmin)
 admin.site.register(Currency, CurrencyAdmin)
 admin.site.register(Account, AccountAdmin)
 admin.site.register(Transaction, TransactionAdmin)

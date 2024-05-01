@@ -2,11 +2,15 @@ from typing import Iterable
 from django.db import models
 from django.utils.text import slugify
 from django.urls import reverse
+from django.core.validators import MinLengthValidator
+from django.core.exceptions import ValidationError
+from django.contrib.auth.models import User
+
+from string import punctuation
 
 from .consts import (
     MODEL_USER_NAME_MAX_LENGTH,
     MODEL_USER_LAST_NAME_MAX_LENGTH,
-    MODEL_USER_EMAIL_MAX_LENGTH,
     MODEL_CURRENCY_NAME_MAX_LENGTH,
     MODEL_CURRENCY_SHORT_NAME_MAX_LENGTH,
     MODEL_ACCOUNT_NAME_MAX_LENGTH,
@@ -15,7 +19,7 @@ from .consts import (
 )
 
 
-class User(models.Model):
+class AppUser(models.Model):
     """
     Model for storing user information.
         * id_user - unique identifier of the user
@@ -24,16 +28,20 @@ class User(models.Model):
         * email - email address of the user
     """
 
-    id_user = models.AutoField(primary_key=True)
+    id_app_user = models.AutoField(primary_key=True)
+    id_user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=MODEL_USER_NAME_MAX_LENGTH)
     lastname = models.CharField(max_length=MODEL_USER_LAST_NAME_MAX_LENGTH)
-    email = models.CharField(max_length=MODEL_USER_EMAIL_MAX_LENGTH)
+    email = models.EmailField()
 
     def __str__(self):
         """
         Sets the string representation of the user instance.
         """
         return f"{self.name} {self.lastname}"
+
+    class Meta:
+        verbose_name_plural = "App Users"
 
 
 class Currency(models.Model):
@@ -79,7 +87,9 @@ class Account(models.Model):
     main_currency = models.ForeignKey(Currency, on_delete=models.CASCADE)
     start_time = models.DateField()
     end_time = models.DateField(null=True, blank=True)
-    slug = models.SlugField(max_length=MODEL_ACCOUNT_SLUG_MAX_LENGTH, null=False, db_index=True)
+    slug = models.SlugField(
+        max_length=MODEL_ACCOUNT_SLUG_MAX_LENGTH, null=False, db_index=True, unique=True
+    )
 
     def __str__(self):
         """
@@ -111,7 +121,9 @@ class Transaction(models.Model):
     amount = models.DecimalField(decimal_places=2, max_digits=10)
     currency = models.ForeignKey(Currency, on_delete=models.CASCADE)
     time = models.DateTimeField()
-    description = models.CharField(max_length=MODEL_TRANSACTION_DESCRIPTION_MAX_LENGTH, null=True, blank=True)
+    description = models.CharField(
+        max_length=MODEL_TRANSACTION_DESCRIPTION_MAX_LENGTH, null=True, blank=True
+    )
 
     def __str__(self):
         """
