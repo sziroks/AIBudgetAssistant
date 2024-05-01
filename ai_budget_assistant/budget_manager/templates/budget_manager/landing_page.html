@@ -9,11 +9,14 @@
 
 {% block body %}
     <section id="budget-summary">
-        {% for account in accounts %}
-            <div id="account"><a href="">
-                <h2>{{ account }}</h2>
-                <h3>{{ account.balance }} {{ account.main_currency }}</h3>
-            </a>    </div>
-        {% endfor %}
+        <form>
+            {% csrf_token %}
+            {% for account in accounts %}
+                <div id="account"><a href="{{ account.get_absolute_url }}">
+                    <h2>{{ account }}</h2>
+                    <h3>Balance: {{ account.balance }} {{ account.main_currency }}</h3>
+                </a></div>
+            {% endfor %}
+        </form>
     </section>
 {% endblock %}

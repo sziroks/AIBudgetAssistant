@@ -1,4 +1,7 @@
+from typing import Iterable
 from django.db import models
+from django.utils.text import slugify
+from django.urls import reverse
 
 
 class User(models.Model):
@@ -65,12 +68,20 @@ class Account(models.Model):
     main_currency = models.ForeignKey(Currency, on_delete=models.CASCADE)
     start_time = models.DateField()
     end_time = models.DateField(null=True, blank=True)
+    slug = models.SlugField(max_length=50, null=False, db_index=True)
 
     def __str__(self):
         """
         Sets the string representation of the account instance.
         """
         return f"{self.name}"
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(Account, self).save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse("budget_manager", args=[self.slug])
 
 
 class Transaction(models.Model):

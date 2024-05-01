@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Account Details{% endblock %}
+{% block css_files %}
+    <link rel="stylesheet" href="{% static "budget_manager/budget_details.css" %}" />
+{% endblock %}
+
+{% block body %}
+    <form id="filter-form">
+        {% csrf_token %}
+        <div class="form">
+            {% for field in filter_form %}
+                <div class="form-field">
+                    <h2>{{ field.label_tag }}</h2>
+                    {{ field }}
+                </div>
+            {% endfor %}
+        </div>
+        <button id="filter-button">Filter</button>
+    </form>
+
+
+    <table id="transactions">
+        <thead>
+            <tr id="table-head">
+                <th>Name</th>
+                <th>Amount</th>
+                <th>Currency</th>
+                <th>Time</th>
+                <th>Account</th>
+            </tr>
+        </thead>
+        <tbody id="table-body">
+            {% for transaction in transactions %}
+                <tr class="{% if transaction.amount > 0 %} row-credit {% else %} row-debit {% endif %}">
+                    <td>{{ transaction.description }}</td>
+                    <td>{{ transaction.amount }}</td>
+                    <td>{{ transaction.currency }}</td>
+                    <td>{{ transaction.time }}</td>
+                    <td>{{ transaction.id_account }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

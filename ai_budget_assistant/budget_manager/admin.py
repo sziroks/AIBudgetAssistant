@@ -25,9 +25,11 @@ class CurrencyAdmin(admin.ModelAdmin):
     )
 
 
-
 class AccountAdmin(admin.ModelAdmin):
-    readonly_fields = ("id_account",)
+    prepopulated_fields = {"slug": ("name",)}
+    readonly_fields = (
+        "id_account",
+    )
     list_display = (
         "id_account",
         "id_user",

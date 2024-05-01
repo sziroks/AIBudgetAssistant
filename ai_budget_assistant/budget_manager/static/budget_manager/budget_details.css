@@ -1,0 +1,55 @@
+#transactions {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#transactions td,
+#transactions th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+#table-head {
+    background-color: #1c1c1c;
+    color: #ddd;
+}
+
+.row-credit {
+    background-color: #4974494b;
+}
+
+.row-debit {
+    background-color: #8f57573b;
+}
+
+.form {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.form-field {
+    margin-right: 30px;
+    margin-bottom: 10px;
+}
+
+.form-field h2 {
+    font-size: 15px;
+    margin-bottom: 0;
+}
+
+input[type="date"] {
+    width: 150px;
+    height: 30px;
+    border-radius: 5px;
+    border: 0px;
+    text-align: center;
+}
+
+select {
+    width: 150px;
+    height: 30px;
+    border-radius: 5px;
+    border: 0px;
+    text-align: center; 
+}
