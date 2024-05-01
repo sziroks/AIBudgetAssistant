@@ -9,6 +9,19 @@ from datetime import (
 
 from .models import User, Account, Currency, Transaction
 from .forms import TransactionFilterForm
+from .consts import (
+    LANDING_PAGE_VIEW_CONTEXT_ACCOUNTS,
+    BUDGET_MANAGER_VIEW_CONTEXT_TRANSACTIONS,
+    BUDGET_MANAGER_VIEW_CONTEXT_FILTER_FORM,
+    MODEL_TRANSACTION_TIME,
+    REQUEST_KEY_START_DATE,
+    REQUEST_KET_END_DATE,
+    REQUEST_KEY_TRANSACTION_TYPE,
+    REQUEST_VALUE_CREDIT,
+    REQUEST_VALUE_DEBIT,
+    TEMPLATE_LANDING_PAGE,
+    TEMPLATE_BUDGET_DETAILS,
+)
 
 
 def get_all_accounts():
@@ -21,8 +34,8 @@ class LandingPageView(View):
         accounts = get_all_accounts()
         return render(
             request,
-            "budget_manager/landing_page.html",
-            context={"accounts": accounts},
+            TEMPLATE_LANDING_PAGE,
+            context={LANDING_PAGE_VIEW_CONTEXT_ACCOUNTS: accounts},
         )
 
 
@@ -30,38 +43,37 @@ class BudgetManagerView(View):
     def get(self, request, slug):
         id_account = Account.objects.get(slug=slug).id_account
         transactions = Transaction.objects.filter(id_account=id_account).order_by(
-            "-time"
+            f"-{MODEL_TRANSACTION_TIME}"
         )
 
         if request.GET:
-            start_time = request.GET.get("start_date")
-            end_time = request.GET.get("end_date")
-            transaction_type = request.GET.get("transaction_type")
+            start_time = request.GET.get(REQUEST_KEY_START_DATE)
+            end_time = request.GET.get(REQUEST_KET_END_DATE)
+            transaction_type = request.GET.get(REQUEST_KEY_TRANSACTION_TYPE)
 
             if start_time:
                 start_time = make_aware(datetime.strptime(start_time, "%Y-%m-%d"))
                 transactions = transactions.filter(time__gte=start_time)
 
             if end_time:
-                end_time = make_aware(datetime.strptime(end_time, "%Y-%m-%d")) + timedelta(days=1)
+                end_time = make_aware(
+                    datetime.strptime(end_time, "%Y-%m-%d")
+                ) + timedelta(days=1)
                 transactions = transactions.filter(time__lt=end_time)
 
             if transaction_type:
-                match transaction_type:
-                    case "credit":
-                        transactions = transactions.filter(amount__gt=0)
-                    case "debit":
-                        transactions = transactions.filter(amount__lt=0)
-                    case _:
-                        raise ValueError(
-                            f"Invalid transaction type: {transaction_type}"
-                        )
+                if transaction_type == REQUEST_VALUE_CREDIT:
+                    transactions = transactions.filter(amount__gt=0)
+                elif transaction_type == REQUEST_VALUE_DEBIT:
+                    transactions = transactions.filter(amount__lt=0)
+                else:
+                    raise ValueError(f"Invalid transaction: {transaction_type}")
 
         context = {
-            "transactions": transactions,
-            "filter_form": TransactionFilterForm(request.GET),
+            BUDGET_MANAGER_VIEW_CONTEXT_TRANSACTIONS: transactions,
+            BUDGET_MANAGER_VIEW_CONTEXT_FILTER_FORM: TransactionFilterForm(request.GET),
         }
-        return render(request, "budget_manager/budget_details.html", context=context)
+        return render(request, TEMPLATE_BUDGET_DETAILS, context=context)
 
     def post(self, request):
         print("post")

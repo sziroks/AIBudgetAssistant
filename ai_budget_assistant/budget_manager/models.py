@@ -3,6 +3,17 @@ from django.db import models
 from django.utils.text import slugify
 from django.urls import reverse
 
+from .consts import (
+    MODEL_USER_NAME_MAX_LENGTH,
+    MODEL_USER_LAST_NAME_MAX_LENGTH,
+    MODEL_USER_EMAIL_MAX_LENGTH,
+    MODEL_CURRENCY_NAME_MAX_LENGTH,
+    MODEL_CURRENCY_SHORT_NAME_MAX_LENGTH,
+    MODEL_ACCOUNT_NAME_MAX_LENGTH,
+    MODEL_ACCOUNT_SLUG_MAX_LENGTH,
+    MODEL_TRANSACTION_DESCRIPTION_MAX_LENGTH,
+)
+
 
 class User(models.Model):
     """
@@ -14,9 +25,9 @@ class User(models.Model):
     """
 
     id_user = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=50)
-    lastname = models.CharField(max_length=50)
-    email = models.CharField(max_length=100)
+    name = models.CharField(max_length=MODEL_USER_NAME_MAX_LENGTH)
+    lastname = models.CharField(max_length=MODEL_USER_LAST_NAME_MAX_LENGTH)
+    email = models.CharField(max_length=MODEL_USER_EMAIL_MAX_LENGTH)
 
     def __str__(self):
         """
@@ -35,8 +46,8 @@ class Currency(models.Model):
     """
 
     id_currency = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=20)
-    short_name = models.CharField(max_length=3)
+    name = models.CharField(max_length=MODEL_CURRENCY_NAME_MAX_LENGTH)
+    short_name = models.CharField(max_length=MODEL_CURRENCY_SHORT_NAME_MAX_LENGTH)
     to_pln = models.DecimalField(decimal_places=2, max_digits=10)
 
     def __str__(self):
@@ -63,12 +74,12 @@ class Account(models.Model):
 
     id_account = models.AutoField(primary_key=True)
     id_user = models.ForeignKey(User, on_delete=models.CASCADE)
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=MODEL_ACCOUNT_NAME_MAX_LENGTH)
     balance = models.DecimalField(decimal_places=2, max_digits=10)
     main_currency = models.ForeignKey(Currency, on_delete=models.CASCADE)
     start_time = models.DateField()
     end_time = models.DateField(null=True, blank=True)
-    slug = models.SlugField(max_length=50, null=False, db_index=True)
+    slug = models.SlugField(max_length=MODEL_ACCOUNT_SLUG_MAX_LENGTH, null=False, db_index=True)
 
     def __str__(self):
         """
@@ -100,7 +111,7 @@ class Transaction(models.Model):
     amount = models.DecimalField(decimal_places=2, max_digits=10)
     currency = models.ForeignKey(Currency, on_delete=models.CASCADE)
     time = models.DateTimeField()
-    description = models.CharField(max_length=100, null=True, blank=True)
+    description = models.CharField(max_length=MODEL_TRANSACTION_DESCRIPTION_MAX_LENGTH, null=True, blank=True)
 
     def __str__(self):
         """
