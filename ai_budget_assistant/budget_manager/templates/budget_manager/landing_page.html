@@ -16,12 +16,18 @@
     <section id="budget-summary">
         <form>
             {% csrf_token %}
-            {% for account in accounts %}
-                <div id="account"><a href="{{ account.get_absolute_url }}">
-                    <h2>{{ account }}</h2>
-                    <h3>Balance: {{ account.balance }} {{ account.main_currency }}</h3>
-                </a></div>
-            {% endfor %}
+            {% if not accounts %}
+                <div id="account">
+                    <h2>No accounts found</h2>
+                </div>
+            {% else %}
+                {% for account in accounts %}
+                    <div id="account"><a href="{{ account.get_absolute_url }}">
+                        <h2>{{ account }}</h2>
+                        <h3>Balance: {{ account.balance }} {{ account.main_currency }}</h3>
+                    </a></div>
+                {% endfor %}
+            {% endif %}
         </form>
     </section>
 

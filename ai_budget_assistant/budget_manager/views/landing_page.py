@@ -1,19 +1,20 @@
 from django.shortcuts import render
 from django.views import View
 from django.http import HttpResponseRedirect
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from ..models import Account
 from ..consts import (
     LANDING_PAGE_VIEW_CONTEXT_ACCOUNTS,
     TEMPLATE_LANDING_PAGE,
 )
+from ..utils import get_app_user
 
 
-class LandingPageView(View):
+class LandingPageView(LoginRequiredMixin, View):
     def get(self, request):
-        if not request.user.is_authenticated:
-            return HttpResponseRedirect("/accounts/login/")
-        accounts = Account.objects.filter(id_user=request.user.id)
+        logged_app_user = get_app_user(self.request)
+        accounts = Account.objects.filter(id_app_user=logged_app_user)
         return render(
             request,
             TEMPLATE_LANDING_PAGE,

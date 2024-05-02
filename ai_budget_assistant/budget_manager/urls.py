@@ -13,10 +13,11 @@ urlpatterns = [
     path("register", registration.RegistrationView.as_view(), name="registration"),
     path("accounts/", include("django.contrib.auth.urls"), name="login-page"),
     path("logout", logout.logout_view, name="logout"),
+    path("monthly-budget-check", monthly_budget.monthly_budget_check_view, name="monthly-budget-check"),
     path(
         "monthly-budget",
         monthly_budget.MonthlyBudgetView.as_view(),
-        name="monthly-budgetabc",
+        name="monthly-budget",
     ),
     path(
         "<slug:slug>",

@@ -20,6 +20,7 @@ from ..consts import (
     REQUEST_VALUE_DEBIT,
     TEMPLATE_BUDGET_DETAILS,
 )
+from ..utils import get_app_user
 
 class TransactionView(View):
     def get(self, request, slug):
@@ -27,8 +28,9 @@ class TransactionView(View):
             return HttpResponseRedirect("/accounts/login/")
         
         possible_accounts = Account.objects.filter(slug=slug)
-        id_account = possible_accounts.get(id_user=request.user.id).id_account
-        transactions = Transaction.objects.filter(id_account=id_account).order_by(
+        logged_app_user = get_app_user(self.request)
+        user_account = possible_accounts.get(id_app_user=logged_app_user)
+        transactions = Transaction.objects.filter(id_account=user_account).order_by(
             f"-{MODEL_TRANSACTION_TIME}"
         )
         if request.GET:

@@ -82,7 +82,7 @@ class Account(models.Model):
     """
 
     id_account = models.AutoField(primary_key=True)
-    id_user = models.ForeignKey(User, on_delete=models.CASCADE)
+    id_app_user = models.ForeignKey(AppUser, on_delete=models.CASCADE)
     name = models.CharField(max_length=MODEL_ACCOUNT_NAME_MAX_LENGTH)
     balance = models.DecimalField(decimal_places=2, max_digits=10)
     main_currency = models.ForeignKey(Currency, on_delete=models.CASCADE)
@@ -135,7 +135,7 @@ class Transaction(models.Model):
 
 class MonthlyBudget(models.Model):
     id_monthly_budget = models.AutoField(primary_key=True)
-    id_user = models.ForeignKey(AppUser, on_delete=models.CASCADE)
+    id_app_user = models.ForeignKey(AppUser, on_delete=models.CASCADE)
     month = models.CharField(max_length=MODEL_MONTHLY_BUDGET_MONTH_MAX_LENGTH)
     main_income = models.PositiveIntegerField(null=True, default=0)
     secondary_income = models.PositiveIntegerField(null=True, default=0)
@@ -149,7 +149,7 @@ class MonthlyBudget(models.Model):
     other_spendings = models.PositiveIntegerField(null=True, default=0)
 
     def __str__(self) -> str:
-        return f"{self.id_user} {self.month}"
+        return f"{self.id_app_user} {self.month}"
 
     class Meta:
         verbose_name_plural = "Monthly Budgets"
