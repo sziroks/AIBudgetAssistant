@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Add Account{% endblock title %}
+{% block css_files %}
+    <link rel="stylesheet" href="{% static "budget_manager/add_account.css" %}" />
+{% endblock css_files %}
+
+{% block body %}
+    <form method="POST">
+        {% csrf_token %}
+        {{ form }}
+        <button type="submit">Add Account</button>
+    </form>
+{% endblock body %}

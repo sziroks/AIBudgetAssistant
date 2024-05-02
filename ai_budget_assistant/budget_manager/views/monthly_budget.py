@@ -17,7 +17,7 @@ class MonthlyBudgetView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form) -> HttpResponse:
         logged_user = get_app_user(self.request)
-        form.instance.id_user = logged_user
+        form.instance.id_app_user = logged_user
         return super().form_valid(form)
 
     def get_success_url(self) -> str:
