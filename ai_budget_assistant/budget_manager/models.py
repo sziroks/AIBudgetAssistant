@@ -16,6 +16,7 @@ from .consts import (
     MODEL_ACCOUNT_NAME_MAX_LENGTH,
     MODEL_ACCOUNT_SLUG_MAX_LENGTH,
     MODEL_TRANSACTION_DESCRIPTION_MAX_LENGTH,
+    MODEL_MONTHLY_BUDGET_MONTH_MAX_LENGTH,
 )
 
 
@@ -130,3 +131,25 @@ class Transaction(models.Model):
         Sets the string representation of the transaction instance.
         """
         return f"{self.id_account} {self.amount}"
+
+
+class MonthlyBudget(models.Model):
+    id_monthly_budget = models.AutoField(primary_key=True)
+    id_user = models.ForeignKey(AppUser, on_delete=models.CASCADE)
+    month = models.CharField(max_length=MODEL_MONTHLY_BUDGET_MONTH_MAX_LENGTH)
+    main_income = models.PositiveIntegerField(null=True, default=0)
+    secondary_income = models.PositiveIntegerField(null=True, default=0)
+    groceries = models.PositiveIntegerField(null=True, default=0)
+    rent = models.PositiveIntegerField(null=True, default=0)
+    transportation = models.PositiveIntegerField(null=True, default=0)
+    entertainment = models.PositiveIntegerField(null=True, default=0)
+    debt = models.PositiveIntegerField(null=True, default=0)
+    subscriptions = models.PositiveIntegerField(null=True, default=0)
+    savings = models.PositiveIntegerField(null=True, default=0)
+    other_spendings = models.PositiveIntegerField(null=True, default=0)
+
+    def __str__(self) -> str:
+        return f"{self.id_user} {self.month}"
+
+    class Meta:
+        verbose_name_plural = "Monthly Budgets"

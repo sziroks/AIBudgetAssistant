@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Monthly budget{% endblock  %}
+{% block css_files %}
+    <link rel="stylesheet href="{% static "budget_manager/monthly_budget.css" %} />
+{% endblock %}
+
+{% block body %}
+<form class="monthly-budget" method="POST">
+    {% csrf_token %}
+    {{ form }}
+    <button class="submit-button">Save budget configuration</button>
+</form>
+{% endblock %}

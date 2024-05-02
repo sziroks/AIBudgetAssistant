@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import AppUser, Currency, Account, Transaction
+from .models import AppUser, Currency, Account, Transaction, MonthlyBudget
 from .consts import (
     MODEL_USER_ID_APP_USER,
     MODEL_USER_NAME,
@@ -23,6 +23,19 @@ from .consts import (
     MODEL_TRANSACTION_CURRENCY,
     MODEL_TRANSACTION_TIME,
     MODEL_TRANSACTION_DESCRIPTION,
+    MODEL_MONTHLY_BUDGET_ID_MONTHLY_BUDGET,
+    MODEL_MONTHLY_BUDGET_ID_USER,
+    MODEL_MONTHLY_BUDGET_MONTH,
+    MODEL_MONTHLY_BUDGET_MAIN_INCOME,
+    MODEL_MONTHLY_BUDGET_SECONDARY_INCOME,
+    MODEL_MONTHLY_BUDGET_GROCERIES,
+    MODEL_MONTHLY_BUDGET_RENT,
+    MODEL_MONTHLY_BUDGET_TRANSPORTATION,
+    MODEL_MONTHLY_BUDGET_ENTERTAINMENT,
+    MODEL_MONTHLY_BUDGET_DEBT,
+    MODEL_MONTHLY_BUDGET_SUBSCRIPTIONS,
+    MODEL_MONTHLY_BUDGET_SAVINGS,
+    MODEL_MONTHLY_BUDGET_OTHER_SPENDINGS,
 )
 
 # Register your models here.
@@ -74,7 +87,27 @@ class TransactionAdmin(admin.ModelAdmin):
     )
 
 
+class MonthlyBudgetAdmin(admin.ModelAdmin):
+    readonly_fields = (MODEL_MONTHLY_BUDGET_ID_MONTHLY_BUDGET,)
+    list_display = (
+        MODEL_MONTHLY_BUDGET_ID_MONTHLY_BUDGET,
+        MODEL_MONTHLY_BUDGET_ID_USER,
+        MODEL_MONTHLY_BUDGET_MONTH,
+        MODEL_MONTHLY_BUDGET_MAIN_INCOME,
+        MODEL_MONTHLY_BUDGET_SECONDARY_INCOME,
+        MODEL_MONTHLY_BUDGET_GROCERIES,
+        MODEL_MONTHLY_BUDGET_RENT,
+        MODEL_MONTHLY_BUDGET_TRANSPORTATION,
+        MODEL_MONTHLY_BUDGET_ENTERTAINMENT,
+        MODEL_MONTHLY_BUDGET_DEBT,
+        MODEL_MONTHLY_BUDGET_SUBSCRIPTIONS,
+        MODEL_MONTHLY_BUDGET_SAVINGS,
+        MODEL_MONTHLY_BUDGET_OTHER_SPENDINGS,
+    )
+
+
 admin.site.register(AppUser, AppUserAdmin)
 admin.site.register(Currency, CurrencyAdmin)
 admin.site.register(Account, AccountAdmin)
 admin.site.register(Transaction, TransactionAdmin)
+admin.site.register(MonthlyBudget, MonthlyBudgetAdmin)

@@ -1,4 +1,12 @@
 from django import forms
+from datetime import datetime
+
+from .models import MonthlyBudget
+from .consts import (
+    MODEL_MONTHLY_BUDGET_ID_MONTHLY_BUDGET,
+    MODEL_MONTHLY_BUDGET_ID_USER,
+    MODEL_MONTHLY_BUDGET_MONTH,
+)
 
 
 class TransactionFilterForm(forms.Form):
@@ -19,3 +27,16 @@ class TransactionFilterForm(forms.Form):
         required=False,
         choices=(("", "All"), ("credit", "Credit"), ("debit", "Debit")),
     )
+
+
+class MonthlyBudgetForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields[MODEL_MONTHLY_BUDGET_MONTH].initial = datetime.now().strftime("%B")
+    class Meta:
+        model = MonthlyBudget
+        exclude = (
+            MODEL_MONTHLY_BUDGET_ID_MONTHLY_BUDGET,
+            MODEL_MONTHLY_BUDGET_ID_USER,
+        )
+        

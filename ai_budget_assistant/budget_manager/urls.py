@@ -5,6 +5,7 @@ from .views import (
     transactions,
     registration,
     logout,
+    monthly_budget,
 )
 
 urlpatterns = [
@@ -12,6 +13,11 @@ urlpatterns = [
     path("register", registration.RegistrationView.as_view(), name="registration"),
     path("accounts/", include("django.contrib.auth.urls"), name="login-page"),
     path("logout", logout.logout_view, name="logout"),
+    path(
+        "monthly-budget",
+        monthly_budget.MonthlyBudgetView.as_view(),
+        name="monthly-budgetabc",
+    ),
     path(
         "<slug:slug>",
         transactions.TransactionView.as_view(),
