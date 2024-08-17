@@ -61,10 +61,11 @@ class TransactionView(View):
         context = {
             BUDGET_MANAGER_VIEW_CONTEXT_TRANSACTIONS: transactions,
             BUDGET_MANAGER_VIEW_CONTEXT_FILTER_FORM: TransactionFilterForm(request.GET),
+            "slug": user_account.slug
         }
         return render(request, TEMPLATE_BUDGET_DETAILS, context=context)
 
-    # def post(self, request):
-    #     print("post")
-    #     print(request.POST)
-    #     pass
+    def post(self, request):
+        print("post")
+        print(request.POST)
+        pass

@@ -7,41 +7,53 @@
 {% endblock %}
 
 {% block body %}
-    <form id="filter-form">
-        {% csrf_token %}
-        <div class="form">
-            {% for field in filter_form %}
-                <div class="form-field">
-                    <h2>{{ field.label_tag }}</h2>
-                    {{ field }}
-                </div>
-            {% endfor %}
-        </div>
-        <button id="filter-button">Filter</button>
-    </form>
+    <div class="form-container">
+        <form id="filter-form">
+            {% csrf_token %}
+            <div class="form">
+                {% for field in filter_form %}
+                    <div class="form-field">
+                        <h2>{{ field.label_tag }}</h2>
+                        {{ field }}
+                    </div>
+                {% endfor %}
+            </div>
+            <button id="filter-button">Filter</button>
+        </form>
 
-    <button id="load-transactions" method="POST">Load Transactions</button>
+        <form action="{% url "load-transactions" slug=slug %}" method="POST" enctype="multipart/form-data" class="upload-form">
+            {% csrf_token %}
+            <input type="file" id="file-input" name="file" accept=".csv" />
+            <label for="file-input" id="file-label" class="button">Load Transactions</label>
+            <button type="submit">Upload</button>
+        </form>
+        
+        
+        
+    </div>
 
-    <table id="transactions">
-        <thead>
-            <tr id="table-head">
-                <th>Name</th>
-                <th>Amount</th>
-                <th>Currency</th>
-                <th>Time</th>
-                <th>Account</th>
-            </tr>
-        </thead>
-        <tbody id="table-body">
-            {% for transaction in transactions %}
-                <tr class="{% if transaction.amount > 0 %} row-credit {% else %} row-debit {% endif %}">
-                    <td>{{ transaction.description }}</td>
-                    <td>{{ transaction.amount }}</td>
-                    <td>{{ transaction.currency }}</td>
-                    <td>{{ transaction.time }}</td>
-                    <td>{{ transaction.id_account }}</td>
+    <div class="table-container">
+        <table id="transactions">
+            <thead>
+                <tr id="table-head">
+                    <th>Name</th>
+                    <th>Amount</th>
+                    <th>Currency</th>
+                    <th>Time</th>
+                    <th>Account</th>
                 </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody id="table-body">
+                {% for transaction in transactions %}
+                    <tr class="{% if transaction.amount > 0 %} row-credit {% else %} row-debit {% endif %}">
+                        <td>{{ transaction.description }}</td>
+                        <td>{{ transaction.amount }}</td>
+                        <td>{{ transaction.currency }}</td>
+                        <td>{{ transaction.time }}</td>
+                        <td>{{ transaction.id_account }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}

@@ -7,6 +7,7 @@ from .views import (
     logout,
     monthly_budget,
     add_account,
+    load_transactions,
 )
 
 urlpatterns = [
@@ -30,4 +31,5 @@ urlpatterns = [
         transactions.TransactionView.as_view(),
         name="budget_manager",
     ),
+    path("<slug:slug>/load-transactions", view=load_transactions.load_transactions, name="load-transactions"),
 ]
