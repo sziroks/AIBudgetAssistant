@@ -13,7 +13,7 @@ urlpatterns = [
     path("", landing_page.LandingPageView.as_view(), name="landing_page"),
     path("register", registration.RegistrationView.as_view(), name="registration"),
     path("accounts/", include("django.contrib.auth.urls"), name="login-page"),
-    path("logout", logout.logout_view, name="logout"),
+    path("logout", logout.logout_view, name="logout"), # type: ignore
     path(
         "monthly-budget-check",
         monthly_budget.monthly_budget_check_view,

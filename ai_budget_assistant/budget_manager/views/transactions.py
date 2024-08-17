@@ -26,6 +26,8 @@ class TransactionView(View):
     def get(self, request, slug):
         if not request.user.is_authenticated:
             return HttpResponseRedirect("/accounts/login/")
+        if "admin" in slug:
+            return HttpResponseRedirect("admin/")
         
         possible_accounts = Account.objects.filter(slug=slug)
         logged_app_user = get_app_user(self.request)
@@ -34,7 +36,6 @@ class TransactionView(View):
             f"-{MODEL_TRANSACTION_TIME}"
         )
         if request.GET:
-            
             start_time = request.GET.get(REQUEST_KEY_START_DATE)
             end_time = request.GET.get(REQUEST_KET_END_DATE)
             transaction_type = request.GET.get(REQUEST_KEY_TRANSACTION_TYPE)

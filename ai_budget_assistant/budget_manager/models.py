@@ -6,7 +6,6 @@ from django.core.validators import MinLengthValidator
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
 
-from string import punctuation
 
 from .consts import (
     MODEL_USER_NAME_MAX_LENGTH,
@@ -89,7 +88,10 @@ class Account(models.Model):
     start_time = models.DateField()
     end_time = models.DateField(null=True, blank=True)
     slug = models.SlugField(
-        max_length=MODEL_ACCOUNT_SLUG_MAX_LENGTH, null=False, db_index=True, unique=True
+        max_length=MODEL_ACCOUNT_SLUG_MAX_LENGTH,
+        null=False,
+        db_index=True,
+        unique=False,
     )
 
     def __str__(self):

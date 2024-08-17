@@ -22,7 +22,7 @@
         </nav>
         <form action="{% url "logout" %}" method="post">
             {% csrf_token %}
-            <button>Logout</button>
+            <button id="logout">Logout</button>
         </form>
     </header>
 

@@ -58,5 +58,30 @@ h3 {
 #main-navigation a:hover,
 #main-navigation a:active {
   color: #d163d9;
-  /* background: radial-gradient(#9640b8, #3b0b4e); */
+}
+
+#logout {
+  padding: 10px 20px;
+  font-size: 1rem;
+  color: #fff;
+  background-color: #d9534f;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.1s;
+  margin-right: 5px;
+}
+
+#logout:hover {
+  background-color: #c9302c;
+}
+
+#logout:active {
+  background-color: #ac2925;
+  transform: scale(0.98);
+}
+
+#logout:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(217, 83, 79, 0.5);
 }

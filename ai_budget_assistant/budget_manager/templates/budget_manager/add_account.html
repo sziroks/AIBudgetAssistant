@@ -7,9 +7,16 @@
 {% endblock css_files %}
 
 {% block body %}
-    <form method="POST">
-        {% csrf_token %}
-        {{ form }}
-        <button type="submit">Add Account</button>
-    </form>
-{% endblock body %}
+    <div id="add-account-div">
+        <form id="add-account-form" method="POST">
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="form-field">
+                    <h2>{{ field.label_tag }}</h2>
+                    {{ field }}
+                </div>
+            {% endfor %}
+            <button class="submit-button">Add account</button>
+        </form>
+    </div>
+{% endblock %}
